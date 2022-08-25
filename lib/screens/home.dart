@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/foundation/key.dart';
+import 'package:states_widgets_routes/models/language.dart';
 
 class MyHome extends StatefulWidget {
   const MyHome({Key? key}) : super(key: key);
@@ -9,7 +9,11 @@ class MyHome extends StatefulWidget {
 }
 
 class _MyHomeState extends State<MyHome> {
-  List<bool> selects = [false, false, false, false, false, false];
+  List<Language> languages = [
+    Language("Android Nativo", "Linguagem C, Java, Kotlin"),
+    Language("IOS Nativo", "Linguagem Objective-C, Swift"),
+    Language("Flutter", "Linguagen Javascript, Pascal, Dart"),
+  ];
 
   Widget title = const Text('Minhas Linguagens');
 
@@ -23,35 +27,40 @@ class _MyHomeState extends State<MyHome> {
           children: [
             Wrap(
               spacing: 10,
-              children: [
-                ChoiceChip(
-                  label: const Text("Android Nativo"),
-                  selected: selects[0],
-                  onSelected: (value) {
-                    setState(() {
-                      selects[0] = value;
-                    });
-                  },
-                ),
-                Expanded(
-                    child: ListView(
-                  children: buildItemsList(),
-                ))
-              ],
-            )
+              children: buildChoices(),
+            ),
+            Expanded(
+                child: ListView(
+              children: buildItemsList(),
+            ))
           ],
         ));
   }
 
+  List<ChoiceChip> buildChoices() {
+    return languages
+        .map((language) => ChoiceChip(
+              label: Text(language.title),
+              selected: language.select,
+              onSelected: (value) {
+                setState(() {
+                  language.select = value;
+                });
+              },
+            ))
+        .toList();
+  }
+
   List<Widget> buildItemsList() {
-    return selects.map((value) {
-      return const Card(
-        child: ListTile(
-          leading: Icon(Icons.android),
-          title: Text("Android Nativo"),
-          subtitle: Text("Linguagens C, Java, Kotlin"),
-        ),
-      );
-    }).toList();
+    return languages
+        .where((language) => language.select)
+        .map((language) => Card(
+              child: ListTile(
+                leading: Icon(language.icon),
+                title: Text(language.title),
+                subtitle: Text(language.subtitle),
+              ),
+            ))
+        .toList();
   }
 }
