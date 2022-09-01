@@ -10,9 +10,9 @@ class MyHome extends StatefulWidget {
 
 class _MyHomeState extends State<MyHome> {
   List<Language> languages = [
-    Language("Android Nativo", "Linguagem C, Java, Kotlin"),
-    Language("IOS Nativo", "Linguagem Objective-C, Swift"),
-    Language("Flutter", "Linguagen Javascript, Pascal, Dart"),
+    Language("Dart", "Dart is a modern programming language developed by Google."),
+    Language("Kotlin", "Kotlin is a programming language developed by JetBrains."),
+    Language("Java", "Java is a programming language developed by Oracle."),
   ];
 
   Widget title = const Text('Minhas Linguagens');
@@ -22,6 +22,12 @@ class _MyHomeState extends State<MyHome> {
     return Scaffold(
         appBar: AppBar(
           title: title,
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              onPressed: _goToAddLanguage,
+            ),
+          ],
         ),
         body: Column(
           children: [
@@ -35,6 +41,15 @@ class _MyHomeState extends State<MyHome> {
             ))
           ],
         ));
+  }
+
+  void _goToAddLanguage() {
+    Future future = Navigator.pushNamed(context, '/add');
+    future.then((value) {
+      setState(() {
+        languages.add(value);
+      });
+    });
   }
 
   List<ChoiceChip> buildChoices() {

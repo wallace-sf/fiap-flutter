@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:states_widgets_routes/screens/home.dart';
+import 'package:states_widgets_routes/screens/add.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +26,11 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHome(),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => const MyHome(),
+        "/add": ((context) => AddLanguage()),
+      }
     );
   }
 }
